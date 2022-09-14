@@ -1,5 +1,5 @@
 // The unordered list where the guessed letters will appear
-const guessedLetters = document.querySelector(".guessed-letters")
+const guessedLettersList = document.querySelector(".guessed-letters")
 // The guess button
 const guessButton = document.querySelector(".guess")
 // The text input where the guessed letter will appear
@@ -16,6 +16,9 @@ const messages = document.querySelector(".message")
 const playAgainButton = document.querySelector(".play-again")
 // First word to guess
 const word = "magnolia"
+// Player guesses
+const guessedLetters = []
+
 
 // Function to add a placeholder for each letter
 const updateWords = (word) => {
@@ -29,11 +32,48 @@ const updateWords = (word) => {
 
 updateWords(word)
 
+// Click event on the guess button
 guessButton.addEventListener("click", e => {
     e.preventDefault()
     const inputValue = letterInput.value
-    console.log(inputValue)
+    //console.log(inputValue)
     if (inputValue !== "") {
-        letterInput.value = ""
+        letterInput.value = "" // Clear the input after the button is clicked
     }
+
+    messages.textContent = "" // Clear the message after entering another input
+    const goodGuess = checkPlayerInput(inputValue)
+
+    if (goodGuess) {
+        makeGuess(inputValue)
+    }
+    //console.log(inputValue)
 })
+
+// Function to check player's input
+const checkPlayerInput = (inputValue) => {
+    //Accepted letter sequence
+    const acceptedLetter = /[a-zA-Z]/
+    
+    //Check different input scenarios
+    if (inputValue === "") {
+        messages.textContent = `Oops looks like you need to enter a letter`
+    } else if (inputValue.length > 1) {
+        messages.textContent = `Please enter one letter only, thanks!`
+    } else if (!inputValue.match(acceptedLetter)) {
+        messages.textContent = `Please enter a letter from A - Z`
+    }
+
+    return inputValue
+}
+
+// Function to capture input 
+const makeGuess = (inputValue) => {
+    const inputUppercase = inputValue.toUpperCase()
+    if (guessedLetters.includes(inputUppercase)) {
+        messages.textContent = `You've already guessed that letter`
+    } else {
+        guessedLetters.push(inputUppercase)
+    }
+    console.log(guessedLetters)
+}
