@@ -25,7 +25,7 @@ const updateWords = (word) => {
     const wordArray = []
     for (const letter of word) {
         wordArray.push("●")
-        //console.log(wordArray)
+        console.log(wordArray)
     }
     wordInProgress.textContent = wordArray.join("")
 }
@@ -74,6 +74,44 @@ const makeGuess = (inputValue) => {
         messages.textContent = `You've already guessed that letter`
     } else {
         guessedLetters.push(inputUppercase)
+        displayGuessedLetter()
+        wordInProgressUpdate(guessedLetters)
     }
-    console.log(guessedLetters)
+   // console.log(guessedLetters)
+}
+
+// Function to show guessed letters
+const displayGuessedLetter = () => {
+    guessedLettersList.innerHTML = ""
+    for (const letter of guessedLetters) {
+        const listItem = document.createElement("li")
+        listItem.textContent = letter
+        guessedLettersList.append(listItem)
+    }
+}
+
+// Function to update word in progress
+const wordInProgressUpdate = (guessedLetters) => {
+    const wordUpper = word.toUpperCase()
+    const wordArray = wordUpper.split("")
+   // console.log(wordArray)
+    const updatedLetter = []
+    for (const letter of wordArray) {
+        if (guessedLetters.includes(letter)) {
+            updatedLetter.push(letter.toUpperCase())
+            //wordInProgress.textContent = wordArray.join("")
+        } else {
+            updatedLetter.push("●")
+        }
+    }
+    wordInProgress.textContent = updatedLetter.join("")
+    winGame() 
+}
+
+// Function to check if the player won
+const winGame = () => {
+    if (word.toUpperCase() === wordInProgress.textContent) {
+        messages.classList.add("win")
+        messages.innerHTML = `<p class="highlight">You guessed the correct word! Congrats!</p>`
+    }
 }
