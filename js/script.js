@@ -1,3 +1,5 @@
+// Main container
+const container = document.querySelector(".container")
 // The unordered list where the guessed letters will appear
 const guessedLettersList = document.querySelector(".guessed-letters")
 // The guess button
@@ -7,7 +9,7 @@ const letterInput = document.querySelector(".letter")
 // The paragraph where the word in progress will appear
 const wordInProgress = document.querySelector(".word-in-progress")
 // The paragraph where the remaining guesses will appear
-const remainingGuesses = document.querySelector(".remaining")
+const guessesRemaining = document.querySelector(".remaining")
 //  The span where the remaining guesses will display
 const remainingGuessesDisplay = document.querySelector(".remaining span")
 // The area where messages will appear when the player guesses a game
@@ -15,22 +17,36 @@ const messages = document.querySelector(".message")
 // The hidden button requesting the player to play again
 const playAgainButton = document.querySelector(".play-again")
 // First word to guess
-const word = "magnolia"
+let word = "magnolia"
 // Player guesses
 const guessedLetters = []
+// The variable for the number of guesses
+let remainingGuesses = 8
 
+async function getWord() {
+    const request = await fetch("https://gist.githubusercontent.com/skillcrush-curriculum/7061f1d4d3d5bfe47efbfbcfe42bf57e/raw/5ffc447694486e7dea686f34a6c085ae371b43fe/words.txt")
+    const words = await request.text()
+    //console.log(data)
+    const wordsArray = words.split("\n")
+    //console.log(wordArray)
+    const randomIndex = Math.floor(Math.random() * wordsArray.length)
+    word = wordsArray[randomIndex].trim()
+    updateWords(word)
+}
+
+getWord()
 
 // Function to add a placeholder for each letter
 const updateWords = (word) => {
     const wordArray = []
     for (const letter of word) {
         wordArray.push("●")
-        console.log(wordArray)
+        //console.log(wordArray)
     }
     wordInProgress.textContent = wordArray.join("")
 }
 
-updateWords(word)
+//updateWords(word)
 
 // Click event on the guess button
 guessButton.addEventListener("click", e => {
@@ -75,6 +91,7 @@ const makeGuess = (inputValue) => {
     } else {
         guessedLetters.push(inputUppercase)
         displayGuessedLetter()
+        guessCount(inputValue)
         wordInProgressUpdate(guessedLetters)
     }
    // console.log(guessedLetters)
@@ -106,6 +123,29 @@ const wordInProgressUpdate = (guessedLetters) => {
     }
     wordInProgress.textContent = updatedLetter.join("")
     winGame() 
+}
+
+// Function to count guesses remaining
+const guessCount = (inputValue) => {
+    const wordInUpperCase = word.toUpperCase()
+    const letterUpperCase = inputValue.toUpperCase()
+    if (!wordInUpperCase.includes(letterUpperCase)) {
+        messages.textContent = `Sorry, the word does not contain ${inputValue}!`
+        remainingGuesses -= 1
+    } else {
+        messages.textContent = `Yes! It does contain that letter`
+    }
+
+    //const count = container.childElementCount
+    //remainingGuessesDisplay.textContent = `${count} guesses`
+    if (remainingGuesses === 0) {
+        messages.textContent = `Awww, game over! The correct word was ${wordInUpperCase}`
+        remainingGuessesDisplay.textContent = `${remainingGuesses} guesses`
+    } else if (remainingGuesses === 1) {
+        remainingGuessesDisplay.textContent = `${remainingGuesses} guess`
+    } else {
+        remainingGuessesDisplay.textContent = `${remainingGuesses} guesses`
+    }
 }
 
 // Function to check if the player won
