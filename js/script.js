@@ -1,5 +1,5 @@
 // Main container
-const container = document.querySelector(".container")
+//const container = document.querySelector(".container")
 // The unordered list where the guessed letters will appear
 const guessedLettersList = document.querySelector(".guessed-letters")
 // The guess button
@@ -19,7 +19,7 @@ const playAgainButton = document.querySelector(".play-again")
 // First word to guess
 let word = "magnolia"
 // Player guesses
-const guessedLetters = []
+let guessedLetters = []
 // The variable for the number of guesses
 let remainingGuesses = 8
 
@@ -153,5 +153,29 @@ const winGame = () => {
     if (word.toUpperCase() === wordInProgress.textContent) {
         messages.classList.add("win")
         messages.innerHTML = `<p class="highlight">You guessed the correct word! Congrats!</p>`
+        startOver()
     }
 }
+
+// Function to hide and show elements
+const startOver = () => {
+    guessButton.classList.add("hide")
+    guessesRemaining.classList.add("hide")
+    guessedLettersList.classList.add("hide")
+    playAgainButton.classList.remove("hide")
+}
+
+// Click event on the Play Again Button
+playAgainButton.addEventListener("click", e => {
+    messages.classList.remove("win")
+    messages.textContent = ""
+    guessedLettersList.innerHTML = ""
+    remainingGuesses = 8
+    guessedLetters = []
+    remainingGuessesDisplay.textContent = `${remainingGuesses} guesses`
+    guessButton.classList.remove("hide")
+    guessesRemaining.classList.remove("hide")
+    guessedLettersList.classList.remove("hide")
+    playAgainButton.classList.add("hide")
+    getWord()
+})
