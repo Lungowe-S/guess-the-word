@@ -1,25 +1,35 @@
 // Main container
-//const container = document.querySelector(".container")
+
 // The unordered list where the guessed letters will appear
 const guessedLettersList = document.querySelector(".guessed-letters")
+
 // The guess button
 const guessButton = document.querySelector(".guess")
+
 // The text input where the guessed letter will appear
 const letterInput = document.querySelector(".letter")
+
 // The paragraph where the word in progress will appear
 const wordInProgress = document.querySelector(".word-in-progress")
+
 // The paragraph where the remaining guesses will appear
 const guessesRemaining = document.querySelector(".remaining")
+
 //  The span where the remaining guesses will display
 const remainingGuessesDisplay = document.querySelector(".remaining span")
+
 // The area where messages will appear when the player guesses a game
 const messages = document.querySelector(".message")
+
 // The hidden button requesting the player to play again
 const playAgainButton = document.querySelector(".play-again")
+
 // First word to guess
 let word = "magnolia"
+
 // Player guesses
 let guessedLetters = []
+
 // The variable for the number of guesses
 let remainingGuesses = 8
 
@@ -74,13 +84,21 @@ const checkPlayerInput = (inputValue) => {
     //Check different input scenarios
     if (inputValue === "") {
         messages.textContent = `Oops looks like you need to enter a letter`
-    } else if (inputValue.length > 1) {
+        return false
+    } 
+    
+    if (inputValue.length > 1) {
         messages.textContent = `Please enter one letter only, thanks!`
-    } else if (!inputValue.match(acceptedLetter)) {
+        return false
+    } 
+    
+    if (!inputValue.match(acceptedLetter)) {
         messages.textContent = `Please enter a letter from A - Z`
-    }
-
-    return inputValue
+        return false
+    } 
+    
+    console.log(inputValue.length)
+    return true
 }
 
 // Function to capture input 
