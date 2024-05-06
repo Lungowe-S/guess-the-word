@@ -156,9 +156,10 @@ const guessCount = (inputValue) => {
 
     if (remainingGuesses === 0) {
         messages.textContent = `Awww, game over! The correct word was ${wordInUpperCase}`
-        remainingGuessesDisplay.textContent = `${remainingGuesses} guesses`
-        playAgainButton.classList.remove("hide")
-        guessButton.classList.add("hide")
+        // remainingGuessesDisplay.textContent = `${remainingGuesses} guesses`
+        // playAgainButton.classList.remove("hide")
+        // guessButton.classList.add("hide")
+        startOver()
     } else if (remainingGuesses === 1) {
         remainingGuessesDisplay.textContent = `${remainingGuesses} guess`
     } else {
