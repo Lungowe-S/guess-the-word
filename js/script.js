@@ -191,10 +191,10 @@ playAgainButton.addEventListener("click", e => {
     guessedLettersList.innerHTML = ""
     remainingGuesses = 8
     guessedLetters = []
+    getWord()
     remainingGuessesDisplay.textContent = `${remainingGuesses} guesses`
     guessButton.classList.remove("hide")
     guessesRemaining.classList.remove("hide")
     guessedLettersList.classList.remove("hide")
     playAgainButton.classList.add("hide")
-    getWord()
 })
