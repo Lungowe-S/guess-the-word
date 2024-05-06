@@ -36,9 +36,7 @@ let remainingGuesses = 8
 async function getWord() {
     const request = await fetch("https://gist.githubusercontent.com/skillcrush-curriculum/7061f1d4d3d5bfe47efbfbcfe42bf57e/raw/5ffc447694486e7dea686f34a6c085ae371b43fe/words.txt")
     const words = await request.text()
-    //console.log(data)
     const wordsArray = words.split("\n")
-    //console.log(wordArray)
     const randomIndex = Math.floor(Math.random() * wordsArray.length)
     word = wordsArray[randomIndex].trim()
     updateWords(word)
@@ -51,7 +49,6 @@ const updateWords = (word) => {
     const wordArray = []
     for (const letter of word) {
         wordArray.push("●")
-        //console.log(wordArray)
     }
     wordInProgress.textContent = wordArray.join("")
 }
@@ -62,7 +59,6 @@ const updateWords = (word) => {
 guessButton.addEventListener("click", e => {
     e.preventDefault()
     const inputValue = letterInput.value
-    //console.log(inputValue)
     if (inputValue !== "") {
         letterInput.value = "" // Clear the input after the button is clicked
     }
@@ -73,7 +69,6 @@ guessButton.addEventListener("click", e => {
     if (goodGuess) {
         makeGuess(inputValue)
     }
-    //console.log(inputValue)
 })
 
 // Function to check player's input
@@ -112,7 +107,6 @@ const makeGuess = (inputValue) => {
         guessCount(inputValue)
         wordInProgressUpdate(guessedLetters)
     }
-   // console.log(guessedLetters)
 }
 
 // Function to show guessed letters
@@ -129,7 +123,6 @@ const displayGuessedLetter = () => {
 const wordInProgressUpdate = (guessedLetters) => {
     const wordUpper = word.toUpperCase()
     const wordArray = wordUpper.split("")
-   // console.log(wordArray)
     const updatedLetter = []
     for (const letter of wordArray) {
         if (guessedLetters.includes(letter)) {
@@ -156,9 +149,6 @@ const guessCount = (inputValue) => {
 
     if (remainingGuesses === 0) {
         messages.textContent = `Awww, game over! The correct word was ${wordInUpperCase}`
-        // remainingGuessesDisplay.textContent = `${remainingGuesses} guesses`
-        // playAgainButton.classList.remove("hide")
-        // guessButton.classList.add("hide")
         startOver()
     } else if (remainingGuesses === 1) {
         remainingGuessesDisplay.textContent = `${remainingGuesses} guess`
